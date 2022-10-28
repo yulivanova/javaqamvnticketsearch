@@ -5,19 +5,22 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.domain.Ticket;
 import ru.netology.repository.TicketRepository;
+import ru.netology.comparator.TicketTravelTimeComparator;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class TicketManagerTest {
 
     TicketRepository repo = new TicketRepository();
     TicketManager manager = new TicketManager(repo);
+    TicketTravelTimeComparator comparator = new TicketTravelTimeComparator();
 
     Ticket ticket1 = new Ticket(1, 4_000, "LED", "GOJ", 120);
     Ticket ticket2 = new Ticket(2, 1_000, "MOW", "LED", 60);
     Ticket ticket3 = new Ticket(3, 2_000, "KZN", "MOW", 110);
     Ticket ticket4 = new Ticket(4, 5_000, "KUF", "OGZ", 480);
-    Ticket ticket5 = new Ticket(5, 6_000, "KJA", "KZN", 240);
+    Ticket ticket5 = new Ticket(5, 6_000, "KZN", "MOW", 140);
 
     @BeforeEach
     public void setUp() {
@@ -30,28 +33,19 @@ public class TicketManagerTest {
     }
 
     @Test
-    public void shouldFindAll() {
+    public void shouldFindAllSort() {
 
-        Ticket[] actual = manager.findAll("LED", "GOJ");
-        Ticket[] expected = {ticket1};
-
-        Assertions.assertArrayEquals(actual, expected);
-    }
-
-    @Test
-    public void shouldSearchResult() {
-
-        Ticket[] actual = manager.searchResult();
-        Ticket[] expected = {ticket2, ticket3, ticket1, ticket4, ticket5};
+        Ticket[] actual = manager.findAll("KZN", "MOW", comparator);
+        Ticket[] expected = {ticket3, ticket5};
 
         Assertions.assertArrayEquals(actual, expected);
     }
 
     @Test
-    public void shouldSortResult() {
+    public void shouldNotFind() {
 
-        Ticket[] actual = {ticket2, ticket3, ticket1, ticket4, ticket5};
-        Ticket[] expected = {ticket2, ticket3, ticket1, ticket4, ticket5};
+        Ticket[] actual = manager.findAll("VOL", "MOW", comparator);
+        Ticket[] expected = {};
         Arrays.sort(actual);
 
         Assertions.assertArrayEquals(actual, expected);
