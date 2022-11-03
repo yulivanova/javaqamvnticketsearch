@@ -5,17 +5,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.domain.Ticket;
 
-import java.util.Arrays;
-
 public class TicketRepositoryTest {
 
     private TicketRepository repo = new TicketRepository();
 
-    Ticket ticket1 = new Ticket(1, 4_000, "LED", "GOJ", 120);
+    Ticket ticket1 = new Ticket(1, 4_000, "MOW", "LED", 120);
     Ticket ticket2 = new Ticket(2, 1_000, "MOW", "LED", 60);
     Ticket ticket3 = new Ticket(3, 2_000, "KZN", "MOW", 110);
     Ticket ticket4 = new Ticket(4, 5_000, "KUF", "OGZ", 480);
-    Ticket ticket5 = new Ticket(5, 6_000, "KZN", "MOW", 140);
+    Ticket ticket5 = new Ticket(5, 6_000, "KJA", "KZN", 240);
 
     @BeforeEach
     public void setUp() {
@@ -27,11 +25,11 @@ public class TicketRepositoryTest {
     }
 
     @Test
-    public void shouldAllSort() {
+    public void shouldAll() {
 
         Ticket[] actual = repo.getAll();
-        Ticket[] expected = {ticket2, ticket3, ticket1, ticket4};
-        Arrays.sort(actual);
+        Ticket[] expected = {ticket1, ticket2, ticket3, ticket4};
+
         Assertions.assertArrayEquals(actual, expected);
     }
 
